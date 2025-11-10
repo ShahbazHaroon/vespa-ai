@@ -7,11 +7,34 @@
 
     <parent>
         <groupId>com.ubaidsample</groupId>
-        <artifactId>vespa-ai</artifactId>
+        <artifactId>vespa-ai-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>sb-vespa-ai</artifactId>
+         <name>sb-vespa-ai</name>
+	<description>This is a sample Spring Boot project for Vespa AI</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer>
+			<name>Muhammad Ubaid Ur Raheem AKA Shahbaz Haroon</name>
+			<id>shahbaz.haroon1</id>
+			<email>shahbazhrn@gmail.com</email>
+			<roles>
+				<role>Technical Architect / Sr. Java Developer</role>
+			</roles>
+			<url>https://github.com/ShahbazHaroon</url>
+		</developer>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
 
     <dependencies>
         <!-- Spring Boot WebFlux -->
