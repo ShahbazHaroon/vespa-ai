@@ -1,0 +1,18 @@
+<services version="1.0">
+  <container id="default" version="1.0">
+    <search/>
+    <document-api/>
+    <nodes>
+      <node hostalias="vespa"/>
+    </nodes>
+  </container>
+
+  <content id="search" version="1.0">
+    <documents>
+      <document type="documents" mode="index"/>
+    </documents>
+    <nodes>
+      <node hostalias="vespa"/>
+    </nodes>
+  </content>
+</services>

@@ -1,0 +1,32 @@
+schema documents {
+    document documents {
+        field id type string {
+            indexing: summary | attribute
+        }
+        field title type string {
+            indexing: index | summary
+        }
+        field content type string {
+            indexing: index | summary
+        }
+        field embedding type tensor<float>(x[384]) {
+            indexing: attribute | summary
+        }
+        field author type string {
+            indexing: attribute | summary
+        }
+        field published_date type string {
+            indexing: attribute | summary
+        }
+    }
+
+    fieldset default {
+        fields: title, content
+    }
+
+    rank-profile hybrid inherits default {
+        first-phase {
+            expression: closeness(field, embedding)
+        }
+    }
+}

@@ -1,0 +1,27 @@
+services:
+  vespa:
+    image: vespaengine/vespa
+    container_name: vespa
+    hostname: vespa
+    ports:
+      - "8080:8080"
+      - "19071:19071"
+    volumes:
+      - ./semantic-search-vespa/vespa-app:/app
+    command: >
+      bash -c "cd /app &&
+               /opt/vespa/bin/vespa-deploy prepare . &&
+               /opt/vespa/bin/vespa-deploy activate &&
+               tail -f /dev/null"
+
+  sb-vespa-ai:
+    build:
+      context: ./semantic-search-vespa/sb-vespa-ai
+    container_name: sb-vespa-ai
+    ports:
+      - "8081:8080"  # Expose Spring Boot API externally
+    depends_on:
+      - vespa
+    environment:
+      - VESPA_HOST=http://vespa:8080
+    restart: on-failure
