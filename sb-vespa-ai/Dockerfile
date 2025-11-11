@@ -1,21 +1,26 @@
 # ---- Build Stage ----
-FROM eclipse-temurin:17-jdk-jammy AS builder
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first to leverage Docker layer caching
-COPY pom.xml mvnw ./
-COPY .mvn .mvn
+# Copy only POM files first to leverage Docker caching
+# Parent POM
+COPY pom.xml ./
+# Child POM
+COPY sb-vespa-ai/pom.xml ./sb-vespa-ai/pom.xml
 
-# Download dependencies (cached between builds)
-RUN ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B \
+    && mvn verify -DskipTests -B
 
-# Copy application source code
-COPY src src
+# Copy full source code
+COPY sb-vespa-ai ./sb-vespa-ai
+COPY indexer ./indexer
 
-# Build application without running tests
-RUN ./mvnw clean package -DskipTests -B
+# Build the sb-vespa-ai module specifically
+# -pl sb-vespa-ai → build only this module
+# -am → also build any modules it depends on (like parent)
+RUN mvn clean package -pl sb-vespa-ai -am -DskipTests -B
 
 # ---- Runtime Stage ----
 FROM eclipse-temurin:17-jre-jammy
@@ -24,7 +29,7 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # Copy only the built JAR (avoid copying everything) into the container at /app
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/sb-vespa-ai/target/sb-vespa-ai-*.jar sb-vespa-ai.jar
 
 # Run as non-root user
 # Create non-root user (use fixed UID/GID for reproducibility)
