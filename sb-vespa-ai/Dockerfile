@@ -8,7 +8,7 @@ WORKDIR /app
 COPY pom.xml mvnw ./
 COPY .mvn .mvn
 
- Download dependencies (cached between builds)
+# Download dependencies (cached between builds)
 RUN ./mvnw dependency:go-offline -B
 
 # Copy application source code
