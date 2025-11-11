@@ -16,7 +16,7 @@ services:
 
   sb-vespa-ai:
     build:
-      context: ./semantic-search-vespa/sb-vespa-ai
+      context: ./sb-vespa-ai
     container_name: sb-vespa-ai
     ports:
       - "8081:8080"  # Expose Spring Boot API externally
