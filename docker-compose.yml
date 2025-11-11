@@ -4,8 +4,8 @@ services:
     container_name: vespa
     hostname: vespa
     ports:
-      - "8080:8080"
-      - "19071:19071"
+      - "8080:8080" # Vespa HTTP port
+      - "19071:19071" # Vespa metrics/admin port
     volumes:
       - ./semantic-search-vespa/vespa-app:/app
     command: >
@@ -13,10 +13,11 @@ services:
                /opt/vespa/bin/vespa-deploy prepare . &&
                /opt/vespa/bin/vespa-deploy activate &&
                tail -f /dev/null"
+    restart: on-failure
 
   sb-vespa-ai:
     build:
-      context: ./sb-vespa-ai
+      context: . # Project root as context
     container_name: sb-vespa-ai
     ports:
       - "8081:8080"  # Expose Spring Boot API externally
