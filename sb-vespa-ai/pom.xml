@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>sb-vespa-ai</artifactId>
-         <name>sb-vespa-ai</name>
+    <name>sb-vespa-ai</name>
 	<description>This is a sample Spring Boot project for Vespa AI</description>
 	<url/>
 	<licenses>
